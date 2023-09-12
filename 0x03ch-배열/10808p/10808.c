@@ -6,7 +6,7 @@ int main(){
 	
 	scanf("%s",word);
 	
-	int word_length=sizeof(arr)/sizeof(arr[0]);
+	int word_length=sizeof(word)/sizeof(word[0]);
 	
 	for(int i=0;i<word_length;i++){
 		arr[word[i]-97]+=1;
