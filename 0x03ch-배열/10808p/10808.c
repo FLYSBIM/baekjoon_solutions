@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main(){
 	int arr[26]={0,};
@@ -6,7 +7,7 @@ int main(){
 	
 	scanf("%s",word);
 	
-	int word_length=sizeof(word)/sizeof(word[0]);
+	int word_length=strlen(word);
 	
 	for(int i=0;i<word_length;i++){
 		arr[word[i]-97]+=1;
