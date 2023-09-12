@@ -1,17 +1,21 @@
 #include <stdio.h>
 
 int main(){
-	int A=0;
-	int B=0;
-	scanf("%d %d",&A,&B);
+	long long A=0;
+	long long B=0;
+	scanf("%lld %lld",&A,&B);
 	if(A>B){
-		int temp=A;
+		long long temp=A;
 		A=B;
 		B=temp;
 	}
-	printf("%d\n",B-A-1);
-	for(int i=A+1;i<B;i++){
-		printf("%d ",i);
+	else if(A==B){
+		printf("0\n");	
+		return 0;
+	}
+	printf("%lld\n",B-A-1);
+	for(long long i=A+1;i<B;i++){
+		printf("%lld ",i);
 	}
 	printf("\n");
 }
