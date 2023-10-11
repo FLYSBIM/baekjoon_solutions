@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//구조체 정의V
 typedef struct Node{
 	char ch;
 	struct Node*next;
 	struct Node*back;
 }Node;
 
-//실제문자열 길이V
 int strlength(char*str){
 	int strlength=0;
 	while(str[strlength]!='\0'){
@@ -16,7 +14,7 @@ int strlength(char*str){
 	}
 	return strlength;
 }
-//연결리스트에 들어있는 문자 출력
+
 void printNode(Node *pNode){
 	while(1){
 		if(pNode->back==NULL){
