@@ -26,9 +26,17 @@ Node*getNode(char ch){
 
 Node*addNode(Node*pNode,char ch){
 	Node*add=getNode(ch);
+
+	if(pNode->ch=='\0'){
+		pNode->ch=ch;
+		pNode->prev=getNode('\0');
+		pNode->prev->next=pNode;
+		return pNode;
+	}
+	add->next=pNode->next;
 	add->prev=pNode;
 	if(pNode->next){
-		add->next=pNode->next;
+		pNode->next->prev=add;
 	}
 	pNode->next=add;
 	return add;
@@ -41,11 +49,11 @@ Node*delNode(Node*pNode){
 
 	Node*prevNode=pNode->prev;
 	
-	if(pNode->next){
+	if(pNode->next!=NULL){
 		pNode->next->prev=pNode->prev;
 	}
 	
-	if(pNode->prev){
+	if(pNode->prev!=NULL){
 		pNode->prev->next=pNode->next;
 	}
 	free(pNode);
@@ -60,13 +68,25 @@ void printNode(Node*pNode){
 		temp=temp->prev;
 	}
 	while(temp->next!=NULL){
-		printf("%c",temp->ch);
+		if(temp->ch!='\0'){
+			printf("%c",temp->ch);
+		}
 		temp=temp->next;
 	}
 	printf("%c",temp->ch);
 	putchar('\n');
 }
 
+void freeNode(Node*pNode){
+	while(pNode->prev!=NULL){
+		pNode=pNode->prev;
+	}
+	while(pNode!=NULL){
+		Node*temp=pNode;
+		pNode=pNode->next;
+		free(temp);
+	}
+}
 int main(void){
 
 	int Testcase=0;
@@ -79,10 +99,7 @@ int main(void){
 		scanf("%s",str[i]);
 	}
 
-	Node*start=getNode('\0');
-	Node*pNode=start;
-
-	Node**Nodearr=(Node**)malloc(sizeof(Testcase));
+	Node**Nodearr=(Node**)malloc(sizeof(Node*)*Testcase);
 	for(int i=0;i<Testcase;i++){
 		Nodearr[i]=getNode('\0');
 	}
@@ -90,29 +107,35 @@ int main(void){
 	for(int i=0;i<Testcase;i++){
 		for(int j=0;j<strlength(str[i]);j++){
 			if(str[i][j]=='<'){
-				if(pNode->prev){
-					pNode=pNode->prev;
+				if(Nodearr[i]->prev){
+					Nodearr[i]=Nodearr[i]->prev;
 				}
 			}
 			else if(str[i][j]=='>'){
-				if(pNode->next){
-					pNode=pNode->next;
+				if(Nodearr[i]->next){
+					Nodearr[i]=Nodearr[i]->next;
 				}
 			}
 			else if(str[i][j]=='-'){
-				pNode=delNode(pNode);
+				Nodearr[i]=delNode(Nodearr[i]);
 			}
 			else if(47<str[i][j]&&str[i][j]<58 || 64<str[i][j]&&str[i][j]<91 || str[i][j]>96&&str[i][j]<123){
-				pNode=addNode(pNode,str[i][j]);
+				Nodearr[i]=addNode(Nodearr[i],str[i][j]);
 			}
 		}
 	}
-	printNode(pNode);
-
+	for(int i=0;i<Testcase;i++){
+		printNode(Nodearr[i]);
+	}
 	for(int i=0;i<Testcase;i++){
 		free(str[i]);
 	}
 	free(str);
+	for(int i=0;i<Testcase;i++){
+		freeNode(Nodearr[i]);
+	}
+	
+	free(Nodearr);
 }
 
 
