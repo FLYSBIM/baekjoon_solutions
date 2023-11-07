@@ -64,13 +64,11 @@ Node*delNode(Node*pNode){
 
 void printNode(Node*pNode){
 	Node*temp=pNode;
-	while(temp->prev!=NULL){
-		temp=temp->prev;
+	if(temp->ch=='\0'){
+		temp=temp->next;
 	}
 	while(temp->next!=NULL){
-		if(temp->ch!='\0'){
-			printf("%c",temp->ch);
-		}
+		printf("%c",temp->ch);
 		temp=temp->next;
 	}
 	printf("%c",temp->ch);
@@ -103,7 +101,13 @@ int main(void){
 	for(int i=0;i<Testcase;i++){
 		Nodearr[i]=getNode('\0');
 	}
-
+	
+	//
+	Node**head=(Node**)malloc(sizeof(Node*)*Testcase);
+	for(int i=0;i<Testcase;i++){
+		head[i]=Nodearr[i];
+	}
+	
 	for(int i=0;i<Testcase;i++){
 		for(int j=0;j<strlength(str[i]);j++){
 			if(str[i][j]=='<'){
@@ -123,10 +127,14 @@ int main(void){
 				Nodearr[i]=addNode(Nodearr[i],str[i][j]);
 			}
 		}
-	}
+	}/*
 	for(int i=0;i<Testcase;i++){
 		printNode(Nodearr[i]);
+	}*/
+	for(int i=0;i<Testcase;i++){
+		printNode(head[i]);
 	}
+	
 	for(int i=0;i<Testcase;i++){
 		free(str[i]);
 	}
@@ -134,7 +142,7 @@ int main(void){
 	for(int i=0;i<Testcase;i++){
 		freeNode(Nodearr[i]);
 	}
-	
+	free(head);
 	free(Nodearr);
 }
 
