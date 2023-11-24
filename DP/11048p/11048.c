@@ -10,11 +10,7 @@ int main(void){
 	int M=0;
 	scanf("%d %d",&N,&M);
 
-	int**dp=(int**)malloc(sizeof(int*)*N);
-	
-	for(int i=0;i<M;i++){
-		dp[i]=(int*)malloc(sizeof(int)*M);
-	}
+	int dp[1001][1001]={0};
 
 	for(int i=0;i<N;i++){
 		for(int j=0;j<M;j++){
@@ -40,9 +36,4 @@ int main(void){
 	}
 	
 	printf("%d\n",dp[N-1][M-1]);
-
-	for(int i=0;i<M;i++){
-		free(dp[i]);
-	}
-	free(dp);
 }
