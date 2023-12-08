@@ -4,49 +4,46 @@ int max(int a,int b){
 	return a>b?a:b;
 }
 
-int min(int a,int b){
-	return a<b?a:b;
-}
-
 int main(void){
 	int N=0,S=0,M=0;
-
-	int dp[51][2]={0};
+	int dp[1001]={0};
+	int dp2[10001]={0};
+	int V[50]={0};
 
 	scanf("%d%d%d",&N,&S,&M);
-
-	dp[0][1]=S;
-	dp[0][0]=S;
-
-	for(int i=1;i<=N;i++){
-		scanf("%d",&dp[i][0]);
-		dp[i][1]=-dp[i][0];
+	
+	for(int i=0;i<N;i++){
+		scanf("%d",&V[i]);
 	}
 
-	for(int i=1;i<=N;i++){
-		int mm=max(dp[i-1][0],dp[i-1][1]);
-		int sm=min(dp[i-1][0],dp[i-1][1]);
-		if(mm+dp[i][0]>=0&&mm+dp[i][0]<=M&&mm>=0){
-			dp[i][0]+=mm;
+	dp[S]=1;
+	
+	for(int i=0;i<N;i++){
+		for(int j=0;j<=M;j++){
+			if(dp[j]!=i+2&&dp[j]!=0){
+				dp[j]=0;
+				if(j+V[i]<=M){
+					dp2[j+V[i]]=i+2;
+				}
+
+				if(j-V[i]>=0){
+					dp2[j-V[i]]=i+2;
+				}
+				
+			}
 		}
-		else if(sm+dp[i][0]>=0&&sm+dp[i][0]<=M&&sm>=0){
-			dp[i][0]+=sm;
+		for(int j=0;j<=M;j++){
+			printf("%d ",dp2[j]);
 		}
-		else{
-			dp[i][0]=-1;
-		}
-		
-		if(mm+dp[i][1]>=0&&mm+dp[i][1]<=M&&mm>=0){
-			dp[i][1]+=mm;
-		}
-		else if(sm+dp[i][1]>=0&&sm+dp[i][1]<=M&&sm>=0){
-			dp[i][1]+=sm;
-		}
-		else{
-			dp[i][1]=-1;
-		}
+		printf("\n");
 	}
-	for(int i=0;i<=N;i++){
-		printf("%d %d\n",dp[i][0],dp[i][1]);
-	}
+
+	int sol=-1;
+	
+	for(int i=0;i<=M;i++){
+		if(dp[i]!=0){
+			sol=max(sol,i);
+		}
+	}				
+	printf("%d\n",sol);	
 }
