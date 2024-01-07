@@ -29,24 +29,25 @@ int main(void){
 	int time=0;
 	
 	while(!box.empty()){
-		for(int& tempcrain:crain){
-			if(tempcrain<box.back()){
+		vector<int>&tempcrain=crain;
+		int tsize=tempcrain.size();
+		for(int i=0;i<tsize;i++){
+			if(tempcrain[i]<box.back()){
 				break;
 			}			
 
-			if(box.front()<=tempcrain){
+			if(box.front()<=tempcrain[i]&&!box.empty()){
 				box.erase(box.begin());
 				
 			}
-			else if(box.front()>tempcrain){
+			else if(box.front()>tempcrain[i]){
 				int bindex=0;
-				while(box[bindex]>tempcrain){
+				while(bindex<box.size()&&box[bindex]>tempcrain[i]){
 					bindex++;
-					if(bindex==box.size()-1){
-						break;
-					}
 				}
-				box.erase(box.begin());
+				if(bindex<box.size()&&!box.empty()){
+					box.erase(box.begin()+bindex);
+				}
 			}
 		}
 		time++;
